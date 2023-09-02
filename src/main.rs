@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::process;
+use system_shutdown::{force_shutdown};
 use std::io::{stdin,stdout,Write};
 
 fn main() {
@@ -35,7 +35,10 @@ fn main() {
                     }
 
                     if number == death {
-                        process::exit(0);
+                        match force_shutdown() {
+                            Ok(_) => println!("RIP"),
+                            Err(error) => eprintln!("Failed to shut down: {}", error),
+                        }
                     } else {
                         println!("Correct! :D Pick another one...");
                         numbers.push(number);
